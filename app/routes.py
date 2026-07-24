@@ -324,7 +324,6 @@ def add_component_to_build(build_id, component_id):
     component = Component.query.get_or_404(component_id)
     
     # Optional compatibility check (e.g., matching CPU and Motherboard socket)
-    # This is a great feature to show off in your presentation!
     if component.category.name == "Motherboard" or component.category.name == "CPU":
         for existing_comp in build.components:
             if existing_comp.category.name in ["CPU", "Motherboard"] and existing_comp.socket != component.socket:
