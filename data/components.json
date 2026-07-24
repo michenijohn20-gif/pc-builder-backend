@@ -1,0 +1,55 @@
+[
+  {
+    "category": "CPU",
+    "name": "Intel Core i7-12700K",
+    "brand": "Intel",
+    "price": 319.99,
+    "socket": "LGA1700"
+  },
+  {
+    "category": "Motherboard",
+    "name": "ASUS Prime Z690-A",
+    "brand": "ASUS",
+    "price": 219.99,
+    "socket": "LGA1700"
+  },
+  {
+    "category": "CPU",
+    "name": "AMD Ryzen 7 5800X",
+    "brand": "AMD",
+    "price": 249.99,
+    "socket": "AM4"
+  },
+  {
+    "category": "GPU",
+    "name": "NVIDIA GeForce RTX 4070",
+    "brand": "NVIDIA",
+    "price": 599.99,
+    "socket": null,
+    "image_url": "/images/rtx-4070.png"
+  },
+  {
+    "category": "GPU",
+    "name": "AMD Radeon RX 7800 XT",
+    "brand": "AMD",
+    "price": 499.99,
+    "socket": null,
+    "image_url": "/images/rx-7800xt.png"
+  },
+  {
+    "category": "RAM",
+    "name": "Corsair Vengeance LPX",
+    "brand": "Corsair",
+    "price": 89.99,
+    "socket": null,
+    "image_url": "/images/vengeance-lpx.png"
+  },
+  {
+    "category": "RAM",
+    "name": "G.Skill Trident Z5",
+    "brand": "G.Skill",
+    "price": 129.99,
+    "socket": null,
+    "image_url": "/images/trident-z5.png"
+  }
+]
