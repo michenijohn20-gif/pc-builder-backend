@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app import db
 from app.models import User, Component, Category, Build, GPU, RAM, build_components
 from app.serializers import serialize_gpu, serialize_ram
-from sqlalchemy import select
+from sqlalchemy import func, select
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 api_bp = Blueprint('api', __name__)
@@ -12,6 +12,52 @@ def get_owned_build_or_403(build_id, user_id):
     if build.user_id != user_id:
         return None
     return build
+
+
+def get_build_component_lines(build_id):
+    rows = db.session.execute(
+        select(
+            Component,
+            func.coalesce(func.sum(build_components.c.quantity), 0).label("quantity"),
+        )
+        .join(build_components, build_components.c.component_id == Component.id)
+        .where(build_components.c.build_id == build_id)
+        .group_by(Component.id)
+        .order_by(Component.id)
+    ).all()
+
+    lines = []
+    for component, quantity in rows:
+        quantity = int(quantity or 0)
+        unit_price = float(component.price or 0.0)
+        lines.append({
+            'id': component.id,
+            'name': component.name,
+            'brand': component.brand,
+            'category': component.category.name if component.category else None,
+            'image_url': component.image_url,
+            'quantity': quantity,
+            'unit_price': unit_price,
+            'price': unit_price,
+            'line_price': unit_price * quantity,
+        })
+    return lines
+
+
+def recalculate_build_total(build):
+    build.total_price = sum(line['line_price'] for line in get_build_component_lines(build.id))
+    return build.total_price
+
+
+def serialize_build(build):
+    components = get_build_component_lines(build.id)
+    return {
+        'id': build.id,
+        'name': build.name,
+        'total_price': sum(component['line_price'] for component in components),
+        'created_at': build.created_at.strftime('%Y-%m-%d'),
+        'components': components,
+    }
 
 #  AUTHENTICATION ENDPOINTS 
 
@@ -283,33 +329,35 @@ def remove_component_from_build(build_id, component_id):
 
     component = Component.query.get_or_404(component_id)
 
-    rows = db.session.execute(
-        select(build_components.c.id).where(
+    row = db.session.execute(
+        select(build_components.c.id, build_components.c.quantity).where(
             build_components.c.build_id == build_id,
             build_components.c.component_id == component_id
         )
-    ).fetchall()
+    ).first()
 
-    if not rows:
+    if row is None:
         return jsonify({'error': 'Component not found in build'}), 404
 
-    removed_count = len(rows)
-    db.session.execute(
-        build_components.delete().where(
-            build_components.c.build_id == build_id,
-            build_components.c.component_id == component_id
+    quantity = int(row.quantity or 1)
+    if quantity > 1:
+        db.session.execute(
+            build_components.update()
+            .where(build_components.c.id == row.id)
+            .values(quantity=quantity - 1)
         )
-    )
+    else:
+        db.session.execute(
+            build_components.delete().where(build_components.c.id == row.id)
+        )
 
-    current_total = float(build.total_price or 0.0)
-    comp_price = float(component.price or 0.0)
-    build.total_price = max(current_total - comp_price * removed_count, 0.0)
+    recalculate_build_total(build)
 
     db.session.commit()
 
     return jsonify({
-        'message': f'Removed {removed_count} x {component.name} from build successfully',
-        'removed_count': removed_count,
+        'message': f'Removed 1 x {component.name} from build successfully',
+        'removed_count': 1,
         'total_price': build.total_price
     }), 200
 
@@ -331,11 +379,38 @@ def add_component_to_build(build_id, component_id):
                     'error': f"Incompatible socket! {component.name} ({component.socket}) does not match {existing_comp.name} ({existing_comp.socket})."
                 }), 400
 
-    build.components.append(component)
-    build.total_price += component.price
+    row = db.session.execute(
+        select(build_components.c.id, build_components.c.quantity).where(
+            build_components.c.build_id == build_id,
+            build_components.c.component_id == component_id
+        )
+    ).first()
+
+    if row is None:
+        db.session.execute(
+            build_components.insert().values(
+                build_id=build_id,
+                component_id=component_id,
+                quantity=1
+            )
+        )
+        quantity = 1
+    else:
+        quantity = int(row.quantity or 1) + 1
+        db.session.execute(
+            build_components.update()
+            .where(build_components.c.id == row.id)
+            .values(quantity=quantity)
+        )
+
+    recalculate_build_total(build)
     db.session.commit()
     
-    return jsonify({'message': f'Added {component.name} to build successfully', 'total_price': build.total_price}), 200
+    return jsonify({
+        'message': f'Added {component.name} to build successfully',
+        'quantity': quantity,
+        'total_price': build.total_price
+    }), 200
 
 # 3. Get all builds belonging to the logged-in user
 @api_bp.route('/builds', methods=['GET'])
@@ -344,15 +419,7 @@ def get_user_builds():
     current_user_id = int(get_jwt_identity())
     user_builds = Build.query.filter_by(user_id=int(current_user_id)).all()
     
-    output = []
-    for b in user_builds:
-        output.append({
-            'id': b.id,
-            'name': b.name,
-            'total_price': b.total_price,
-            'created_at': b.created_at.strftime('%Y-%m-%d'),
-            'components': [{'id': c.id, 'name': c.name, 'price': c.price} for c in b.components]
-        })
+    output = [serialize_build(build) for build in user_builds]
     return jsonify(output), 200
 
 # 4. Delete a build

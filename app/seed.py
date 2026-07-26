@@ -28,7 +28,10 @@ def seed_database():
             with open(json_path, "r", encoding="utf-8") as handle:
                 parts = json.load(handle)
             for part in parts:
-                if Component.query.filter_by(name=part["name"]).first():
+                existing_component = Component.query.filter_by(name=part["name"]).first()
+                if existing_component:
+                    if "image_url" in part:
+                        existing_component.image_url = part.get("image_url")
                     continue
                 category = categories.get(part["category"])
                 if not category:
