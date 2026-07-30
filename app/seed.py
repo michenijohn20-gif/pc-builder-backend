@@ -47,51 +47,57 @@ def seed_database():
                     )
                 )
 
-        if GPU.query.count() == 0:
-            db.session.add_all(
-                [
-                    GPU(
-                        name="NVIDIA GeForce RTX 4070",
-                        brand="NVIDIA",
-                        price=599.99,
-                        specs={"memory": "12GB", "boost_clock": "2475 MHz"},
-                        vram="12GB",
-                        image_url="/images/rtx-4070.png",
-                    ),
-                    GPU(
-                        name="AMD Radeon RX 7800 XT",
-                        brand="AMD",
-                        price=499.99,
-                        specs={"memory": "16GB", "boost_clock": "2430 MHz"},
-                        vram="16GB",
-                        image_url="/images/rx-7800xt.png",
-                    ),
-                ]
-            )
+        gpu_seed_data = [
+            {
+                "name": "NVIDIA GeForce RTX 4070",
+                "brand": "NVIDIA",
+                "price": 599.99,
+                "specs": {"memory": "12GB", "boost_clock": "2475 MHz"},
+                "vram": "12GB",
+                "image_url": "/images/rtx-4070.webp",
+            },
+            {
+                "name": "AMD Radeon RX 7800 XT",
+                "brand": "AMD",
+                "price": 499.99,
+                "specs": {"memory": "16GB", "boost_clock": "2430 MHz"},
+                "vram": "16GB",
+                "image_url": "/images/rx-7800xt.png",
+            },
+        ]
+        for gpu_data in gpu_seed_data:
+            gpu = GPU.query.filter_by(name=gpu_data["name"]).first()
+            if gpu:
+                gpu.image_url = gpu_data["image_url"]
+            else:
+                db.session.add(GPU(**gpu_data))
 
-        if RAM.query.count() == 0:
-            db.session.add_all(
-                [
-                    RAM(
-                        name="Corsair Vengeance LPX",
-                        brand="Corsair",
-                        price=89.99,
-                        specs={"type": "DDR4", "speed": "3200MHz"},
-                        capacity="16GB",
-                        speed="3200MHz",
-                        image_url="/images/vengeance-lpx.png",
-                    ),
-                    RAM(
-                        name="G.Skill Trident Z5",
-                        brand="G.Skill",
-                        price=129.99,
-                        specs={"type": "DDR5", "speed": "6000MHz"},
-                        capacity="32GB",
-                        speed="6000MHz",
-                        image_url="/images/trident-z5.png",
-                    ),
-                ]
-            )
+        ram_seed_data = [
+            {
+                "name": "Corsair Vengeance LPX",
+                "brand": "Corsair",
+                "price": 89.99,
+                "specs": {"type": "DDR4", "speed": "3200MHz"},
+                "capacity": "16GB",
+                "speed": "3200MHz",
+                "image_url": "/images/vengeance-lpx.png",
+            },
+            {
+                "name": "G.Skill Trident Z5",
+                "brand": "G.Skill",
+                "price": 129.99,
+                "specs": {"type": "DDR5", "speed": "6000MHz"},
+                "capacity": "32GB",
+                "speed": "6000MHz",
+                "image_url": "/images/trident-z5.webp",
+            },
+        ]
+        for ram_data in ram_seed_data:
+            ram = RAM.query.filter_by(name=ram_data["name"]).first()
+            if ram:
+                ram.image_url = ram_data["image_url"]
+            else:
+                db.session.add(RAM(**ram_data))
 
         demo_user = User.query.filter_by(username="demo").first()
         if not demo_user:

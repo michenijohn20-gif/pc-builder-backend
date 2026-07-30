@@ -4,21 +4,26 @@
     "name": "Intel Core i7-12700K",
     "brand": "Intel",
     "price": 319.99,
-    "socket": "LGA1700"
+    "socket": "LGA1700",
+    "image_url": "/images/i7-12700k.jpg"
+
+
   },
   {
     "category": "Motherboard",
     "name": "ASUS Prime Z690-A",
     "brand": "ASUS",
     "price": 219.99,
-    "socket": "LGA1700"
+    "socket": "LGA1700",
+    "image_url": "/images/prime-z690-a.png"
   },
   {
     "category": "CPU",
     "name": "AMD Ryzen 7 5800X",
     "brand": "AMD",
     "price": 249.99,
-    "socket": "AM4"
+    "socket": "AM4",
+    "image_url": "/images/ryzen-7-5800x.jpg"
   },
   {
     "category": "GPU",
@@ -26,7 +31,7 @@
     "brand": "NVIDIA",
     "price": 599.99,
     "socket": null,
-    "image_url": "/images/rtx-4070.png"
+    "image_url": "/images/rtx-4070.webp"
   },
   {
     "category": "GPU",
@@ -50,6 +55,6 @@
     "brand": "G.Skill",
     "price": 129.99,
     "socket": null,
-    "image_url": "/images/trident-z5.png"
+    "image_url": "/images/trident-z5.webp"
   }
 ]
