@@ -24,4 +24,12 @@ def create_app(config_class=Config):
     from app.routes import api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
 
+    @app.route('/')
+    def health_check():
+        return {
+            'service': 'pc-builder-api',
+            'status': 'ok',
+            'routes': ['/api/components', '/api/gpus', '/api/rams']
+        }, 200
+
     return app
