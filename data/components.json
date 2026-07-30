@@ -26,6 +26,22 @@
     "image_url": "/images/ryzen-7-5800x.jpg"
   },
   {
+    "category": "CPU",
+    "name": "Intel Core i5-12600K",
+    "brand": "Intel",
+    "price": 249.99,
+    "socket": "LGA1700",
+    "image_url": null
+  },
+  {
+    "category": "CPU",
+    "name": "AMD Ryzen 5 5600X",
+    "brand": "AMD",
+    "price": 159.99,
+    "socket": "AM4",
+    "image_url": null
+  },
+  {
     "category": "GPU",
     "name": "NVIDIA GeForce RTX 4070",
     "brand": "NVIDIA",
@@ -42,6 +58,14 @@
     "image_url": "/images/rx-7800xt.png"
   },
   {
+    "category": "GPU",
+    "name": "MSI GeForce RTX 4070 SUPER Ventus 2X",
+    "brand": "MSI",
+    "price": 649.99,
+    "socket": null,
+    "image_url": null
+  },
+  {
     "category": "RAM",
     "name": "Corsair Vengeance LPX",
     "brand": "Corsair",
@@ -56,5 +80,29 @@
     "price": 129.99,
     "socket": null,
     "image_url": "/images/trident-z5.webp"
+  },
+  {
+    "category": "RAM",
+    "name": "Kingston Fury Beast",
+    "brand": "Kingston",
+    "price": 74.99,
+    "socket": null,
+    "image_url": null
+  },
+  {
+    "category": "Motherboard",
+    "name": "MSI MAG B550 Tomahawk",
+    "brand": "MSI",
+    "price": 189.99,
+    "socket": "AM4",
+    "image_url": null
+  },
+  {
+    "category": "Motherboard",
+    "name": "ASUS ROG Strix B650-A Gaming WiFi",
+    "brand": "ASUS",
+    "price": 279.99,
+    "socket": "AM5",
+    "image_url": null
   }
 ]

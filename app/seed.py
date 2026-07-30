@@ -64,6 +64,14 @@ def seed_database():
                 "vram": "16GB",
                 "image_url": "/images/rx-7800xt.png",
             },
+            {
+                "name": "MSI GeForce RTX 4070 SUPER Ventus 2X",
+                "brand": "MSI",
+                "price": 649.99,
+                "specs": {"memory": "12GB", "boost_clock": "2475 MHz"},
+                "vram": "12GB",
+                "image_url": None,
+            },
         ]
         for gpu_data in gpu_seed_data:
             gpu = GPU.query.filter_by(name=gpu_data["name"]).first()
@@ -90,6 +98,15 @@ def seed_database():
                 "capacity": "32GB",
                 "speed": "6000MHz",
                 "image_url": "/images/trident-z5.webp",
+            },
+            {
+                "name": "Kingston Fury Beast",
+                "brand": "Kingston",
+                "price": 74.99,
+                "specs": {"type": "DDR4", "speed": "3200MHz"},
+                "capacity": "16GB",
+                "speed": "3200MHz",
+                "image_url": None,
             },
         ]
         for ram_data in ram_seed_data:
