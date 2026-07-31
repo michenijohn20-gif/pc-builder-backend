@@ -31,7 +31,7 @@
     "brand": "Intel",
     "price": 249.99,
     "socket": "LGA1700",
-    "image_url": null
+    "image_url": "/images/i5-12600kf.jpeg"
   },
   {
     "category": "CPU",
@@ -39,7 +39,7 @@
     "brand": "AMD",
     "price": 159.99,
     "socket": "AM4",
-    "image_url": null
+    "image_url": "/images/AMDRyzen560X.jpg"
   },
   {
     "category": "GPU",
@@ -63,7 +63,7 @@
     "brand": "MSI",
     "price": 649.99,
     "socket": null,
-    "image_url": null
+    "image_url": "/images/rtx-4070.webp"
   },
   {
     "category": "RAM",
@@ -87,7 +87,7 @@
     "brand": "Kingston",
     "price": 74.99,
     "socket": null,
-    "image_url": null
+    "image_url": "/images/KingstonFuryBeast.jpg"
   },
   {
     "category": "Motherboard",
@@ -95,7 +95,7 @@
     "brand": "MSI",
     "price": 189.99,
     "socket": "AM4",
-    "image_url": null
+    "image_url": "/images/b550.jpeg"
   },
   {
     "category": "Motherboard",
@@ -103,6 +103,6 @@
     "brand": "ASUS",
     "price": 279.99,
     "socket": "AM5",
-    "image_url": null
+    "image_url": "/images/b650.png"
   }
 ]
