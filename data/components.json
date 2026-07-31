@@ -70,7 +70,7 @@
     "name": "Corsair Vengeance LPX",
     "brand": "Corsair",
     "price": 89.99,
-    "socket": null,
+    "socket": "DDR4",
     "image_url": "/images/vengeance-lpx.png"
   },
   {
@@ -78,7 +78,7 @@
     "name": "G.Skill Trident Z5",
     "brand": "G.Skill",
     "price": 129.99,
-    "socket": null,
+    "socket": "DDR4",
     "image_url": "/images/trident-z5.webp"
   },
   {
@@ -86,7 +86,7 @@
     "name": "Kingston Fury Beast",
     "brand": "Kingston",
     "price": 74.99,
-    "socket": null,
+    "socket": "DDR4",
     "image_url": "/images/KingstonFuryBeast.jpg"
   },
   {
