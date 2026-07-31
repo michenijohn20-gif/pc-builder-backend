@@ -28,6 +28,7 @@ def serialize_ram(obj):
         "name": obj.name,
         "brand": obj.brand,
         "price": obj.price,
+        "socket": (obj.specs or {}).get("type"),
         "specs": obj.specs or {},
         "capacity": obj.capacity,
         "speed": obj.speed,
